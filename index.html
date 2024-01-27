@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>api-test</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-centre text-primary">users list</h1>
+        <div class="card shadow mt-5">
+            <table class="table">
+            <thead>
+                <tr>
+                <th>#</th>
+                <th>username</th>
+                <th>email</th>
+                <th>adress</th>
+                <th>phone</th>
+                <th>website</th>
+                <th>company</th>
+            </tr>
+            </thead>
+
+          <tbody id="result">
+         
+
+        </tbody>
+        </table>
+
+        </div>
+    </div>
+</body>
+<script>
+    //AJAX-XMLHTTpRequest
+    const request =new XMLHttpRequest()
+    //open a connection to https://jsonplaceholder.typicode.com/users
+    request.open("get","https://jsonplaceholder.typicode.com/users")
+    //reuest send
+    request.send()
+    console.log("initially:",request.readyState);
+    request.onreadystatechange=()=>{
+        // console.log(request.readyState);
+        if(request.readyState===4){
+            if(request.status>=200&&request.status<300){
+                const users = JSON.parse(request.responseText)
+                // console.log(users);
+                users.forEach((item,index)=>{
+                    result.innerHTML += `<tr>
+            <td>${index+1}</td>
+            <td>${item.name}</td>
+            <td>${item.email}</td>
+            <td>${item.address.street},</td>
+            <td>${item.phone}</td>
+            <td>${item.website}</td>
+            <td>${item.company.name}</td>
+        </tr>`
+                })
+            }
+        }else{
+            console.log("failed to fetch data");
+        }
+    }
+</script>
+</html>
